@@ -4,35 +4,35 @@ const app = new Hono();
 const kv = await Deno.openKv();
 
 // Redirect root URL
-app.get("/", (c) => c.redirect("/books"));
+app.get("/", (c) => c.redirect("/students"));
 
-// List all books
-app.get("/books", async (c) => {
-  const iter = await kv.list({ prefix: ["books"] });
-  const books = [];
-  for await (const res of iter) books.push(res);
+// List all students
+app.get("/students", async (c) => {
+  const iter = await kv.list({ prefix: ["students"] });
+  const students = [];
+  for await (const res of iter) students.push(res);
 
-  return c.json(books);
+  return c.json(students);
 });
 
-// Create a book (POST body is JSON)
-app.post("/books", async (c) => {
+// Create a student (POST body is JSON)
+app.post("/students", async (c) => {
   const body = await c.req.json();
-  const result = await kv.set(["books", body.title], body);
+  const result = await kv.set(["students", body.mssv], body);
   return c.json(result);
 });
 
-// Get a book by title
-app.get("/books/:title", async (c) => {
-  const title = c.req.param("title");
-  const result = await kv.get(["books", title]);
+// Get a student by mssv
+app.get("/students/:mssv", async (c) => {
+  const mssv = c.req.param("mssv");
+  const result = await kv.get(["students", mssv]);
   return c.json(result);
 });
 
-// Delete a book by title
-app.delete("/books/:title", async (c) => {
-  const title = c.req.param("title");
-  await kv.delete(["books", title]);
+// Delete a student by mssv
+app.delete("/students/:mssv", async (c) => {
+  const mssv = c.req.param("mssv");
+  await kv.delete(["students", mssv]);
   return c.text("");
 });
 
