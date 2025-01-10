@@ -1,1 +1,1 @@
-Deno.serve((req: Request) => new Response("Time: " + Date.now()));
+Deno.serve((req: Request) => new Response("Bây giờ là: " + Date.now()));
